@@ -16,16 +16,17 @@ const pool = new Pool({
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithEmail = function(email) {
-  let user;
-  for (const userId in users) {
-    user = users[userId];
-    if (user.email.toLowerCase() === email.toLowerCase()) {
-      break;
-    } else {
-      user = null;
-    }
-  }
-  return Promise.resolve(user);
+  return pool
+    .query(`SELECT * 
+    FROM users 
+    WHERE email = $1`, [email])
+    .then((result) => {
+      console.log(result.rows[0]);
+      return result.rows[0];
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 }
 exports.getUserWithEmail = getUserWithEmail;
 
@@ -35,21 +36,45 @@ exports.getUserWithEmail = getUserWithEmail;
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function(id) {
-  return Promise.resolve(users[id]);
+  return pool
+    .query(`SELECT * 
+    FROM users 
+    WHERE id = $1`, [id])
+    .then((result) => {
+      console.log(result.rows[0]);
+      return result.rows[0];
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
 }
 exports.getUserWithId = getUserWithId;
 
 
 /**
+ * Accepts a user object that will have a name, email, and password property
+ * 
+This function should insert the new user into the database.
+It will return a promise that resolves with the new user object. This object should contain the user's id after it's been added to the database.
+
+Add RETURNING *; to the end of an INSERT query to return the objects that were inserted. This is handy when you need the auto generated id of an object you've just added to the database.
  * Add a new user to the database.
  * @param {{name: string, password: string, email: string}} user
  * @return {Promise<{}>} A promise to the user.
  */
 const addUser =  function(user) {
-  const userId = Object.keys(users).length + 1;
-  user.id = userId;
-  users[userId] = user;
-  return Promise.resolve(user);
+  const {name, password, email} = user;
+  return pool
+    .query(`INSERT INTO users (name, password, email)
+    VALUES($1, $2, $3)
+    RETURNING *`, [name, password, email])
+    .then((result) => {
+      console.log(result.rows[0]);
+      return result.rows[0];
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 }
 exports.addUser = addUser;
 
@@ -84,12 +109,6 @@ exports.getAllReservations = getAllReservations;
       console.log(err.message);
     });
 };
-//   const limitedProperties = {};
-//   for (let i = 1; i <= limit; i++) {
-//     limitedProperties[i] = properties[i];
-//   }
-//   return Promise.resolve(limitedProperties);
-// }
 exports.getAllProperties = getAllProperties;
 
 
