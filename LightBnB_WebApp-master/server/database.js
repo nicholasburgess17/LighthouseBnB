@@ -174,7 +174,6 @@ exports.getAllProperties = getAllProperties;
  * @return {Promise<{}>} A promise to the property.
  */
 const addProperty = function (property) {
-  console.log(property)
   const queryString = `
   INSERT INTO properties (
     owner_id, 
@@ -216,8 +215,6 @@ const addProperty = function (property) {
   return pool
     .query(queryString, values)
     .then((result) => {
-      
-      console.log(property.title)
       console.log(result.rows[0]);
       return result.rows[0];
     })
