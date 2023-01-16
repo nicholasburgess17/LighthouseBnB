@@ -177,9 +177,10 @@ const addProperty = function (property) {
   return pool
     .query(
       `INSERT INTO properties (
-    owner_id,
+    
     title,
     description, 
+    owner_id,
     thumbnail_photo_url, 
     cover_photo_url, 
     cost_per_night, 
@@ -196,9 +197,10 @@ const addProperty = function (property) {
   RETURNING *;
   `,
       [
-        properties.owner_id,
+        
         properties.title,
         properties.description,
+        properties.owner_id,
         properties.thumbnail_photo_url,
         properties.cover_photo_url,
         properties.cost_per_night,
