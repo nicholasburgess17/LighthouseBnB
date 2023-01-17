@@ -42,3 +42,22 @@
   * `json` is a directory that contains a bunch of dummy data in `.json` files.
   * `database.js` is responsible for all queries to the database. 
   
+  ![Main page when logged in](/LightBnB_WebApp-master/assets/Main-page.png)
+  ![Create a new listing](/LightBnB_WebApp-master/assets/new%20-property.png)
+
+  ## Getting started
+Create a new repository using this repository as a template.
+Clone your repository onto your local device.
+Change directory into LightBnB_WebApp-master
+Install dependencies using the npm install command.
+Start the web server using the npm run local command. The app will be served at http://localhost:3000/.
+Go to http://localhost:3000/ in your browser.
+
+## Dependancies 
+bcrypt 3.0.6
+body-parser 1.19.0
+cookie-session 1.3.3
+dotenv 16.0.3
+express 4.17.1
+nodemon 1.19.1
+pg 8.8.0
